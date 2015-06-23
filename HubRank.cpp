@@ -94,13 +94,6 @@ int main(int argc, char* argv[])
         strm << "(" << name1 << "-" << name2;
 		strm << ")" << "-a" << aa;
         strm << ")" << "-t" << tt;
-        
-        //no random alignment
-     //   if(nn==1) 
-       // {
-         //   alignment.outputEvaluation(strm.str());
-           // alignment.outputAlignment(strm.str());
-      //  }
     }
 	catch(exception &e)
 	{
