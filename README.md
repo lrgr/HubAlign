@@ -38,5 +38,10 @@ For two input networks ‘Test1.tab’ and ‘Test2.tab’, HubAlign produces tw
 File ‘*.alignment’  is a tab separated file in which each line  indicates the matching pair of nodes from two networks. File ‘*.eval’ includes EC, S3 and LCCS (both node and edge) of the alignment.  
 
 ##############################
+If you use HubAlign, please cite this paper:
+Hashemifar, Somaye, and Jinbo Xu. "HubAlign: an accurate and efficient method for global alignment of protein–protein interaction networks." Bioinformatics 30.17 (2014): i438-i444.
 
 If you have any questions or if you have found any problem in the software, please email Hashemifar@ttic.edu. For the latest updates, please visit http://ttic.uchicago.edu/~hashemifar/
+
+
+
