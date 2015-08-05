@@ -44,7 +44,14 @@ void Alignment::align(double a, double b)
     float a1;   
     float a2; 
     float MINSCORE = -100000;
-    
+    int coeff;
+    if(network2.numOfEdge>network1.numOfEdge) {
+        coeff = network2.numOfEdge/network1.numOfEdge;
+    }
+    else {
+        coeff = network1.numOfEdge/network2.numOfEdge;
+    }
+ 
     int maxNode; // node with max score
     double alpha = a;   //to control factor of edgeweight 
     bool *alignNodes1 = new bool[network1.size]; //aligned nodes of the smaller network
@@ -143,7 +150,7 @@ void Alignment::align(double a, double b)
             //update the align scores
             for(int c1=0; c1 <network1.deg[maxNode]; c1++)
                 for(int c2=0; c2<network2.deg[best[maxNode]]; c2++)
-                    alignScore[ network1.neighbor[maxNode][c1]][network2.neighbor[best[maxNode]][c2]]=alignScore[ network1.neighbor[maxNode][c1]][network2.neighbor[best[maxNode]][c2]]+(1/max); //update the weights
+                    alignScore[ network1.neighbor[maxNode][c1]][network2.neighbor[best[maxNode]][c2]]=alignScore[ network1.neighbor[maxNode][c1]][network2.neighbor[best[maxNode]][c2]]+(coeff/max); //update the weights
         }
     }//end flag
     
