@@ -105,7 +105,7 @@ Network::Network(char *nam)
 		}
         
 		numOfEdge = numOfEdge / 2;
-        cout << nam << " : " << size << " nodes , " << numOfEdge << " edges\n";
+        cout <<nam << " : " << size << " nodes , " << numOfEdge << " edges\n";
 
         //initialize some variables after findin the size of the network
         nodeWeight = new float[size]; //weight of each node that changes during making the skeletone
@@ -171,12 +171,6 @@ void Network::makeSkeleton(int t)
 //result is a network without any node of degree one.
 void Network::removeDegOne()
 {
-    for (int c1=0; c1<size; c1++)
-    {
-        if (newDeg[c1]>400000) {
-            cout << newDeg[c1] << endl;
-        }
-    }
     bool flag = true;
     while(flag){ //while there is a node with degree one
         flag=false;
@@ -279,4 +273,3 @@ Network::Network(void)
 Network::~Network(void)
 {
 }
-
