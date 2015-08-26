@@ -1,5 +1,3 @@
-// NetAlign.cpp : Defines the entry point for the console application.
-
 #include "Alignment.h"
 #include <iostream>
 #include <string.h>
@@ -13,9 +11,10 @@ exception er;
 
 int main(int argc, char* argv[])
 {
-    double aa = 0.1; //a is alpha that controlls the factor of edgeweights
-    int tt = 6; //controlls the step of making the skeleton
-
+    double lambda = 0.2; //a is alpha that controlls the factor of edgeweights
+    double alpha=0.7;
+    int degree = 10; //controlls the step of making the skeleton
+    
     char* name1; //name of the first network
     char* name2; //name of second network
     char* blastFile;
@@ -36,34 +35,45 @@ int main(int argc, char* argv[])
                 if ( ( strlen(argv[i]) == 2 ) && ( argv[i][0]=='-' ) && ( i + 1 < argc) ) //wether or not the parameter has started with '-' and has a value
                 {
                     i++; //to read the value of input parameter
-                    if( argv[i-1][1]=='a' )
+                    if( argv[i-1][1]=='l' )
                     {
-                        aa = atof(argv[i]);
-                        if( aa <0 || aa > 1) //the value of a should be between zero and one
+                        lambda = atof(argv[i]);
+                        if( lambda <0 || lambda > 1) //the value of a should be between zero and one
                         {
                             cout << "Error : value of a must be between 0 and 1" << endl;
                             return -1;
                         }
                     }
-                    else if( argv[i-1][1]=='t')
+                    else if( argv[i-1][1]=='d')
                     {
-                        tt = atoi(argv[i]);
-                        if( tt > 100)
+                        degree = atoi(argv[i]);
+                        if( degree > 100)
                         {
                             cout << "Error : value of t must be between 0 and 100" << endl;
                             return -1;
                         }
                     }
+                    else if(argv[i-1][1]=='b')
+                    {
+                        blastFile=argv[i];
+                    }
+                    else if(argv[i-1][1]=='a')
+                    {
+                        alpha = atof(argv[i]);
+                    }
+
                     i++;// to reach the next input parameter if there is
                 }
                 else
                 {
-                    cout << "Error in argument : " << argv[i] << endl; //avaz karde am
+                    cout <<  strlen(argv[i])<<i+1 << argc << endl;
+                    cout << "Error in argument : " << argv[i] << endl; 
                     return -1;
                 }
             }
 		} //end else
 
+        cout << "\n=============== HubAlign ==================\n";
         //construct the networks
         Network network1(name1); 
         Network network2(name2);
@@ -72,28 +82,26 @@ int main(int argc, char* argv[])
         if(network1.size > network2.size)
             reverse = true;
         //making the skeletons of the networks 
-        network1.makeSkeleton(tt);
-        network2.makeSkeleton(tt);
-        
 
+        network1.makeSkeleton(degree);
+        network2.makeSkeleton(degree);
+        
+        
+        
         //align two networks with each other
         Alignment alignment( network1, network2);
-        alignment.align(aa);
-
-        //calculation of evaluating measures
-        int CCCV = 0, CCCE = 0; //LCCS based on vertex and edge
-        float EC = 0, NC = 0, IC = 0;
-		CCCV += alignment.CCCV;
-		CCCE += alignment.CCCE;
-		EC += alignment.EC;
-		NC += alignment.NC;
-		IC += alignment.IC;        
+        if(alpha!=1) {
+            alignment.readblast(blastFile);
+        }
+        
+        alignment.align(lambda, alpha);
         
 		//making the name for output file
         stringstream strm;
-        strm << "(" << name1 << "-" << name2;
-		strm << ")" << "-a" << aa;
-        strm << ")" << "-t" << tt;
+        strm << name1 << "-" << name2;
+        alignment.outputEvaluation(strm.str());
+        alignment.outputAlignment(strm.str());
+        
     }
 	catch(exception &e)
 	{
