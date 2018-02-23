@@ -14,22 +14,26 @@ int main(int argc, char* argv[])
     double lambda = 0.2; //a is alpha that controlls the factor of edgeweights
     double alpha=0.7;
     int degree = 10; //controlls the step of making the skeleton
-    
-    char* name1; //name of the first network
-    char* name2; //name of second network
+
+    char* name1; //file path of the first network
+    char* name2; //file path of second network
+    char* short_name1; //short name of the first network
+    char* short_name2; //short name of second network
     char* blastFile;
-    try 
+    try
     {
-        if(argc < 3) {
-            cout << "There should be two files as input!" <<endl;
+        if(argc < 5) {
+            cout << "There should be two file/name pairs as input!" <<endl;
             return -1;
         }
         else //input arguments
         {
             int i = 1; //counter for input parameters
+            short_name1 = argv[ i++ ]; // first network name
             name1 = argv[ i++ ]; //first network
+            short_name2 = argv[ i++ ]; // second network name
             name2 = argv[ i++ ]; //second network
-            
+
 			while (i<argc) //check all the input parameters
             {
                 if ( ( strlen(argv[i]) == 2 ) && ( argv[i][0]=='-' ) && ( i + 1 < argc) ) //wether or not the parameter has started with '-' and has a value
@@ -67,7 +71,7 @@ int main(int argc, char* argv[])
                 else
                 {
                     cout <<  strlen(argv[i])<<i+1 << argc << endl;
-                    cout << "Error in argument : " << argv[i] << endl; 
+                    cout << "Error in argument : " << argv[i] << endl;
                     return -1;
                 }
             }
@@ -75,33 +79,34 @@ int main(int argc, char* argv[])
 
         cout << "\n=============== HubAlign ==================\n";
         //construct the networks
-        Network network1(name1); 
+        Network network1(name1);
         Network network2(name2);
         bool reverse = false; //it means size of first input network is bigger than second one
-        
+
         if(network1.size > network2.size)
             reverse = true;
-        //making the skeletons of the networks 
+        //making the skeletons of the networks
 
         network1.makeSkeleton(degree);
         network2.makeSkeleton(degree);
-        
-        
-        
+
+
+
         //align two networks with each other
         Alignment alignment( network1, network2);
         if(alpha!=1) {
             alignment.readblast(blastFile);
         }
-        
-        alignment.align(lambda, alpha);
-        
+
+
+        alignment.align(lambda, alpha, short_name1, short_name2);
+
 		//making the name for output file
         stringstream strm;
-        strm << name1 << "-" << name2;
+        strm << short_name1 << "-" << short_name2;
         alignment.outputEvaluation(strm.str());
         alignment.outputAlignment(strm.str());
-        
+
     }
 	catch(exception &e)
 	{
@@ -111,4 +116,3 @@ int main(int argc, char* argv[])
 	}
     return 0;
 }
-
