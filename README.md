@@ -1,4 +1,5 @@
-# hubalign-py
+# HubAlign Python wrapper
+<img src='https://travis-ci.org/lrgr/HubAlign.svg?branch=master' >
 Python wrapper of [HubAlign](https://github.com/hashemifar/HubAlign) that outputs cross-species gene similarity scores.
 
 ### Setup
@@ -10,17 +11,4 @@ The methods and experiments are written in Python 3. We recommend using Conda to
     conda env create -f environment.yml
     source activate hubalign-py-env
 
-#### HubAlign
-
-HubAlign requires a C++ compiler.
-
-1. Compile HubAlign:
-
-        g++ -o bin/HubAlign src/HubAlign.cpp src/Alignment.cpp src/Network.cpp
-
-2. Then test:
-
-        ./HubAlign example/Test1.tab example/Test2.tab -l 0.1 -a 0.7 -d 10 -b example/Test1_Test2.bitscore
-
-
-###
+Note that HubAlign requires a C++ compiler. Consequently, we include the Conda [`gxx_linux_64`](https://anaconda.org/anaconda/gxx_linux-64) as a dependency in the `environment.yml`. You may need to update or remove this dependency if you are on a non-Linux system.
