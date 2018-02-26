@@ -1,0 +1,10 @@
+name: hubalign-env
+channels:
+  - defaults
+  - bioconda
+dependencies:
+  - numpy
+  - networkx
+  - snakemake
+  - gxx_linux-64
+  - scikit-learn
