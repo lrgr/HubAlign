@@ -169,7 +169,7 @@ void Alignment::align(double lambda, double alpha, string name1, string name2)
     names << name1 << "-" << name2;
     string outFileName = names.str();
     outFileName.append(".hubalign-scores.txt");
-    ofstream outputFile (outFileName);
+    ofstream outputFile (outFileName.c_str());
     if (outputFile.is_open())
     {
       for(int c2=0; c2<network2.size; c2++){
