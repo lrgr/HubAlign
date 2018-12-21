@@ -1,0 +1,53 @@
+################################################################################
+# SETTINGS, FILES, CONFIGURATION, AND DIRECTORIES
+################################################################################
+# Configuration/Settings/Modules
+from os.path import join
+
+# Directories
+BIN_DIR = '../bin'
+NAME1 = config['A']
+NAME2 = config['B']
+
+OUTPUT_DIR = 'output/%s-%s' % (NAME1, NAME2)
+# Files
+HUB_ALIGN = join(BIN_DIR, 'HubAlign')
+
+
+BLAST_BITSCORES_TXT = config['bitscores']
+BLAST_BITSCORES_PKL = join(OUTPUT_DIR, '%s_%s.bitscore.pkl' % (NAME1, NAME2))
+
+NETWORK1 = config['a-ppi']
+NETWORK2 = config['b-ppi']
+
+EXAMPLE_HUBALIGN_OUTPUT = join(OUTPUT_DIR, '%s-%s-hubalign-output.pkl' % (NAME1, NAME2))
+################################################################################
+# RULES
+################################################################################
+# General
+rule all:
+    input:
+        EXAMPLE_HUBALIGN_OUTPUT
+
+# Running on example data
+rule run_example:
+    input:
+        bitscores=BLAST_BITSCORES_PKL,
+        hubalign=HUB_ALIGN,
+        networks=[NETWORK1, NETWORK2],
+    params:
+        names=' '.join([NAME1, NAME2])
+    output:
+        EXAMPLE_HUBALIGN_OUTPUT
+    shell:
+        'python ../hub_align.py -nf {input.networks} -nn {params.names} '\
+        '-bbf {input.bitscores} -hab {input.hubalign} -o {output}'
+
+rule wrap_bitscores:
+    input:
+        BLAST_BITSCORES_TXT
+    output:
+        BLAST_BITSCORES_PKL
+    shell:
+        'python ../wrap_bitscores.py -i {input} -o {output}'
+
