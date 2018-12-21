@@ -1,0 +1,5 @@
+A: mouse
+B: human
+a-ppi: ../../hubalign/output/mouse-human/mouse_ppi.tab
+b-ppi: ../../hubalign/output/mouse-human/human_ppi.tab
+bitscores: ../../hubalign/output/mouse-human/mouse_human_bitscores.tsv

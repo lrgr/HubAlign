@@ -1,0 +1,5 @@
+A: scc
+B: hhuman
+a-ppi: ../../hubalign/output/scc-hhuman/scc_ppi.tab
+b-ppi: ../../hubalign/output/scc-hhuman/hhuman_ppi.tab
+bitscores: ../../hubalign/output/scc-hhuman/scc_hhuman_bitscores.tsv

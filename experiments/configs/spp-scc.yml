@@ -1,0 +1,5 @@
+A: spp
+B: scc
+a-ppi: ../../hubalign/output/spp-scc/spp_ppi.tab
+b-ppi: ../../hubalign/output/spp-scc/scc_ppi.tab
+bitscores: ../../hubalign/output/spp-scc/spp_scc_bitscores.tsv
